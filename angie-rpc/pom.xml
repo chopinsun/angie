@@ -80,6 +80,7 @@
             <artifactId>protostuff-runtime</artifactId>
         </dependency>
 
+
     </dependencies>
 
     <build>

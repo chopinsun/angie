@@ -12,8 +12,7 @@
         <module>angie-registry</module>
         <module>angie-admin</module>
         <module>angie-moniter</module>
-        <module>angie-consummer</module>
-        <module>angie-provider</module>
+        <module>angie-common</module>
         <module>angie-rpc</module>
         <module>angie-remote</module>
     </modules>
@@ -69,7 +68,13 @@
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
-                <version>4.0.1</version>
+                <version>4.2.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>4.2.0</version>
             </dependency>
 
             <!-- Serializer -->
@@ -103,6 +108,56 @@
                 <version>1.6.0</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.6</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>23.0</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.8.Final</version>
+            </dependency>
+
+            <!-- inner  -->
+            <dependency>
+                <groupId>com.chopin.sunny</groupId>
+                <artifactId>angie-common</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chopin.sunny</groupId>
+                <artifactId>angie-rpc</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chopin.sunny</groupId>
+                <artifactId>angie-remote</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chopin.sunny</groupId>
+                <artifactId>angie-registry</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chopin.sunny</groupId>
+                <artifactId>angie-moniter</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chopin.sunny</groupId>
+                <artifactId>angie-admin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>
@@ -117,7 +172,6 @@
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
-                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.0.2</version>

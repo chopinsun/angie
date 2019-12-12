@@ -2,7 +2,7 @@ package com.chopin.sunny.serializer.enums;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum SerializerType {
+public enum SerializeType {
     DefaultJavaSerializer("DefaultJavaSerializer"),
     HessianSerializer("HessianSerializer"),
     JsonSerializer("JsonSerializer"),
@@ -11,22 +11,26 @@ public enum SerializerType {
     ProtoStuffSerializer("ProtoStuffSerializer"),
     ThriftSerializer("ThriftSerializer");
 
-    private String serializerType;
+    private String serializeType;
 
-    private SerializerType(String serializerType){
-        this.serializerType = serializerType;
+    private SerializeType(String serializeType){
+        this.serializeType = serializeType;
     }
 
-    public static SerializerType queryByType(String serializerType){
-        if(StringUtils.isBlank(serializerType)){
+    public static SerializeType queryByType(String serializeType){
+        if(StringUtils.isBlank(serializeType)){
             return  null;
         }
-        for(SerializerType serializer : SerializerType.values()){
-            if(serializer.serializerType.equals(serializerType)){
+        for(SerializeType serializer : SerializeType.values()){
+            if(serializer.serializeType.equals(serializeType)){
                 return serializer;
             }
         }
         return  null;
+    }
+
+    public String getSerializeType() {
+        return serializeType;
     }
 
 }

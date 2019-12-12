@@ -2,25 +2,25 @@ package com.chopin.sunny;
 
 import com.chopin.sunny.serializer.*;
 import com.chopin.sunny.serializer.api.ISerializer;
-import com.chopin.sunny.serializer.enums.SerializerType;
+import com.chopin.sunny.serializer.enums.SerializeType;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SerializerEngine {
-    private static Map<SerializerType,ISerializer> serializeMap = new ConcurrentHashMap<>();
+    private static Map<SerializeType,ISerializer> serializeMap = new ConcurrentHashMap<>();
     static{
-        serializeMap.put(SerializerType.DefaultJavaSerializer, new DefaultJavaSerializer());
-        serializeMap.put(SerializerType.HessianSerializer, new HessianSerializer());
-        serializeMap.put(SerializerType.JsonSerializer, new JsonSerializer());
-        serializeMap.put(SerializerType.MarshallingSerializer, new MarshallingSerializer());
-        serializeMap.put(SerializerType.ProtoBufSerializer, new ProtoBufSerializer());
-        serializeMap.put(SerializerType.ProtoStuffSerializer, new ProtoStuffSerializer());
-        serializeMap.put(SerializerType.ThriftSerializer, new ThriftSerializer());
+        serializeMap.put(SerializeType.DefaultJavaSerializer, new DefaultJavaSerializer());
+        serializeMap.put(SerializeType.HessianSerializer, new HessianSerializer());
+        serializeMap.put(SerializeType.JsonSerializer, new JsonSerializer());
+        serializeMap.put(SerializeType.MarshallingSerializer, new MarshallingSerializer());
+        serializeMap.put(SerializeType.ProtoBufSerializer, new ProtoBufSerializer());
+        serializeMap.put(SerializeType.ProtoStuffSerializer, new ProtoStuffSerializer());
+        serializeMap.put(SerializeType.ThriftSerializer, new ThriftSerializer());
     }
 
-    public <T> byte[] serialize(T obj,String serializeType){
-        SerializerType st =  SerializerType.queryByType(serializeType);
+    public static <T> byte[] serialize(T obj,String serializeType){
+        SerializeType st =  SerializeType.queryByType(serializeType);
         if(st==null){
             throw new RuntimeException("unsupport serializeType");
         }
@@ -43,8 +43,8 @@ public class SerializerEngine {
      * @param <T>
      * @return
      */
-    public <T> T deserialize(byte[] data, Class<T> clazz,String serializeType){
-        SerializerType st =  SerializerType.queryByType(serializeType);
+    public static <T> T deserialize(byte[] data, Class<T> clazz,String serializeType){
+        SerializeType st =  SerializeType.queryByType(serializeType);
         if(st==null){
             throw new RuntimeException("unsupport serializeType");
         }

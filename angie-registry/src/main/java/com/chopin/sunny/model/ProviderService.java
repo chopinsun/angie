@@ -17,6 +17,7 @@ public class ProviderService {
     private Class<?> serviceItf;
     private transient Object serviceObject;
     private transient Method serviceMethod;
+    private String domain;
     private String serverIp;
     private int serverPort;
     private long timeout;
@@ -26,6 +27,8 @@ public class ProviderService {
     private int workerThreads;
     //服务提供者唯一标识
     private String appKey;
+    //接口别名
+    private String alias;
     //服务分组组名
     private String groupName;
 }

@@ -7,7 +7,7 @@ public class RpcRequest {
 
     private String uniqueKey;
     //服务提供者信息
-    private ProviderService provider;
+    private URL provider;
     //调用的方法名称
     private String invokedMethodName;
     //传递参数

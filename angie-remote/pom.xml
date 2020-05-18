@@ -45,6 +45,14 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.chopin.sunny</groupId>
+            <artifactId>angie-registry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.chopin.sunny</groupId>
+            <artifactId>angie-registry</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

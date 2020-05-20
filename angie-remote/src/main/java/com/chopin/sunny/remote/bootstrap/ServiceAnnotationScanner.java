@@ -1,7 +1,6 @@
 package com.chopin.sunny.remote.bootstrap;
 
 import com.chopin.sunny.annotion.AngieService;
-import com.chopin.sunny.remote.ServiceFactoryBean;
 import com.chopin.sunny.utils.NativeUtil;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;

@@ -2,7 +2,6 @@ package com.chopin.sunny.remote.bootstrap;
 
 import com.chopin.sunny.annotion.AngieReference;
 import com.chopin.sunny.annotion.AngieService;
-import com.chopin.sunny.remote.ReferenceFactoryBean;
 import com.chopin.sunny.utils.NativeUtil;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;

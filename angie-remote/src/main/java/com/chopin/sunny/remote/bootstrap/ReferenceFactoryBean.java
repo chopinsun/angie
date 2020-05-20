@@ -1,4 +1,4 @@
-package com.chopin.sunny.remote;
+package com.chopin.sunny.remote.bootstrap;
 
 import com.chopin.sunny.model.ServiceItf;
 import com.chopin.sunny.model.URL;
@@ -7,6 +7,7 @@ import com.chopin.sunny.registry.api.Registry;
 import com.chopin.sunny.remote.bootstrap.InterfaceProxy;
 import com.chopin.sunny.remote.bootstrap.MethodInterceptorImpl;
 import com.chopin.sunny.remote.netty.NettyChannelPoolFactroy;
+import com.chopin.sunny.remote.netty.NettyInvokerProxy;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -47,15 +48,7 @@ public class ReferenceFactoryBean<T> implements FactoryBean<T>, InitializingBean
     @Override
     public T getObject() throws Exception {
         interfaceClass = Class.forName(className);
-        if (interfaceClass.isInterface()) {
-            serviceObject =  (T) InterfaceProxy.newInstance(interfaceClass);
-        } else {
-            Enhancer enhancer = new Enhancer();
-            enhancer.setSuperclass(interfaceClass);
-            enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
-            enhancer.setCallback(new MethodInterceptorImpl());
-            serviceObject =  (T) enhancer.create();
-        }
+        serviceObject =  (T) NettyInvokerProxy.newInstance(interfaceClass);
         return serviceObject;
     }
 

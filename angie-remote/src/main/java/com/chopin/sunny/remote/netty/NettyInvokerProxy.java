@@ -8,6 +8,7 @@ import com.chopin.sunny.model.RpcResponse;
 import com.chopin.sunny.model.URL;
 import com.chopin.sunny.registry.RegistryFactory;
 import com.chopin.sunny.registry.api.Registry;
+import com.chopin.sunny.remote.bootstrap.InterfaceProxy;
 import com.chopin.sunny.utils.PropertyConfigeHelper;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -15,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -30,16 +32,16 @@ import java.util.stream.Collectors;
 @Log4j2
 public class NettyInvokerProxy implements InvocationHandler {
 
-    private Object target;
+    private Class<?> target;
 
     private static final String routerType =(String) PropertyConfigeHelper.getProperty("angie.router.type");
-    public NettyInvokerProxy(Object target){
+    public NettyInvokerProxy(Class<?> target){
         this.target = target;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        String key = target.getClass().getName()+"."+method.getName();
+        String key = target.getName()+"."+method.getName();
         Registry registry = RegistryFactory.getRegistry();
         Set<URL> providers = registry.getLocalRegisterCaches().get(key);
         if(providers==null || providers.isEmpty()){
@@ -79,6 +81,11 @@ public class NettyInvokerProxy implements InvocationHandler {
         return response;
     }
 
-
+    public static <T> T newInstance(Class<T> innerInterface) {
+        ClassLoader classLoader = innerInterface.getClassLoader();
+        Class[] interfaces = new Class[] { innerInterface };
+        NettyInvokerProxy proxy = new NettyInvokerProxy(innerInterface);
+        return (T) Proxy.newProxyInstance(classLoader, interfaces, proxy);
+    }
 
 }

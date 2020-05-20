@@ -1,4 +1,4 @@
-package com.chopin.sunny.remote;
+package com.chopin.sunny.remote.bootstrap;
 
 import com.chopin.sunny.model.ServiceItf;
 import com.chopin.sunny.model.URL;

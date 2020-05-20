@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>com.chopin.sunny</groupId>
-            <artifactId>angie-rpc</artifactId>
+            <artifactId>angie-serializer</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

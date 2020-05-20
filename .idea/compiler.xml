@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="angie-demo" />
         <module name="angie-serializer" />
         <module name="angie-moniter" />
         <module name="angie-registry" />
@@ -13,7 +14,6 @@
         <module name="angie-admin" />
         <module name="angie-common" />
         <module name="angie-remote" />
-        <module name="angie-rpc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,11 +22,11 @@
       <module name="angie-cluster" target="11" />
       <module name="angie-common" target="8" />
       <module name="angie-consummer" target="1.7" />
+      <module name="angie-demo" target="11" />
       <module name="angie-moniter" target="11" />
       <module name="angie-provider" target="1.7" />
       <module name="angie-registry" target="11" />
       <module name="angie-remote" target="11" />
-      <module name="angie-rpc" target="1.8" />
       <module name="angie-serializer" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -36,11 +36,11 @@
       <module name="angie-cluster" options="-parameters" />
       <module name="angie-common" options="-parameters" />
       <module name="angie-consummer" options="-parameters" />
+      <module name="angie-demo" options="-parameters" />
       <module name="angie-moniter" options="-parameters" />
       <module name="angie-provider" options="-parameters" />
       <module name="angie-registry" options="-parameters" />
       <module name="angie-remote" options="-parameters" />
-      <module name="angie-rpc" options="-parameters" />
       <module name="angie-serializer" options="-parameters" />
     </option>
   </component>

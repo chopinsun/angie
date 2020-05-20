@@ -16,6 +16,7 @@
         <module>angie-serializer</module>
         <module>angie-remote</module>
         <module>angie-cluster</module>
+        <module>angie-demo</module>
     </modules>
 
     <parent>
@@ -135,7 +136,7 @@
             </dependency>
             <dependency>
                 <groupId>com.chopin.sunny</groupId>
-                <artifactId>angie-rpc</artifactId>
+                <artifactId>angie-serializer</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>

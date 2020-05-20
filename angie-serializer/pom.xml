@@ -10,8 +10,8 @@
     </parent>
 
 
-    <artifactId>angie-rpc</artifactId>
-    <name>angie-rpc</name>
+    <artifactId>angie-serializer</artifactId>
+    <name>angie-serializer</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

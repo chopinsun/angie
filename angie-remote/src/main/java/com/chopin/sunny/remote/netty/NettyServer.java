@@ -27,6 +27,8 @@ import java.net.InetSocketAddress;
 @Log4j2
 public class NettyServer {
 
+    private static NettyServer nettyServer = new NettyServer();
+
     //处理连接的线程
     private EventLoopGroup boss = new EpollEventLoopGroup();
     //处理数据的线程
@@ -88,6 +90,5 @@ public class NettyServer {
             log.error("netty stop error",e);
         }
     }
-
 
 }

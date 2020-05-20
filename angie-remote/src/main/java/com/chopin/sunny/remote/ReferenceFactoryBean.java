@@ -4,16 +4,22 @@ import com.chopin.sunny.model.ServiceItf;
 import com.chopin.sunny.model.URL;
 import com.chopin.sunny.registry.RegistryFactory;
 import com.chopin.sunny.registry.api.Registry;
+import com.chopin.sunny.remote.bootstrap.InterfaceProxy;
+import com.chopin.sunny.remote.bootstrap.MethodInterceptorImpl;
 import com.chopin.sunny.remote.netty.NettyChannelPoolFactroy;
-import com.chopin.sunny.remote.netty.NettyInvokerProxy;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cglib.core.SpringNamingPolicy;
+import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @title: angie
@@ -25,11 +31,12 @@ import java.util.Set;
 @Component
 public class ReferenceFactoryBean<T> implements FactoryBean<T>, InitializingBean {
 
+    private Class<?> interfaceClass;
     private String clientAppKey;
     private String clientHost;
-    private String clientPort;
+    private int clientPort;
     private String className;
-    private String methodName;
+    private Method[] methods;
     private int timeout;
     private T serviceObject;
     private String clusterStrategy;
@@ -39,31 +46,52 @@ public class ReferenceFactoryBean<T> implements FactoryBean<T>, InitializingBean
 
     @Override
     public T getObject() throws Exception {
+        interfaceClass = Class.forName(className);
+        if (interfaceClass.isInterface()) {
+            serviceObject =  (T) InterfaceProxy.newInstance(interfaceClass);
+        } else {
+            Enhancer enhancer = new Enhancer();
+            enhancer.setSuperclass(interfaceClass);
+            enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
+            enhancer.setCallback(new MethodInterceptorImpl());
+            serviceObject =  (T) enhancer.create();
+        }
         return serviceObject;
     }
 
     @Override
     public Class<?> getObjectType() {
-        try {
-            Class innerClass = Class.forName(className);
-            return innerClass;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return interfaceClass;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         Registry registry = RegistryFactory.getRegistry();
-        Map<URL, Set<URL>> subscribes = registry.getLocalSubscribeCaches();
-        ServiceItf service = ServiceItf.builder()
-                .className(className)
-                .alias(alias)
-                .methodName(methodName)
-                .build();
+        registry.subscribe(buildService(),buildClients());
         NettyChannelPoolFactroy.getInstance().init();
+    }
+
+
+    private Set<URL> buildClients(){
+        Set<URL> urls = Arrays.asList(methods).stream().map(x->URL.builder()
+                .appKey(clientAppKey)
+                .host(clientHost)
+                .port(clientPort)
+                .groupName(group)
+                .service(ServiceItf.builder()
+                        .className(className)
+                        .methodName(x.getName())
+                        .build())
+                .build()).collect(Collectors.toSet());
+
+        return urls;
+    }
+
+    private URL buildService(){
+        return URL.builder()
+                .appKey(remoteAppKey)
+                .service(ServiceItf.builder().className(className).build())
+                .build();
     }
 
 
@@ -113,14 +141,6 @@ public class ReferenceFactoryBean<T> implements FactoryBean<T>, InitializingBean
 
     public void setGroup(String group) {
         this.group = group;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
     }
 
     public String getAlias() {

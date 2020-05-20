@@ -1,4 +1,4 @@
-package com.chopin.sunny.remote.aop;
+package com.chopin.sunny.annotion;
 
 
 import java.lang.annotation.*;
@@ -8,11 +8,8 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface AngieService {
-    Class<?> interfaceClass() default void.class;
-    String interfaceName() default "";
     String app() default "angie-default-app";
     String weight() default "1";
     String alias() ;
     String group() default "default-0";
-    Method[] methods() default {};
 }

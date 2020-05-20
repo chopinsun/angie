@@ -1,9 +1,7 @@
-package com.chopin.sunny.remote.aop;
+package com.chopin.sunny.remote.bootstrap;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-
-import java.lang.reflect.Method;
 
 /**
  * @title: angie
@@ -11,14 +9,9 @@ import java.lang.reflect.Method;
  * @author: sunxiaobo
  * @create: 2020-05-20 18:04
  **/
-public class ServiceClassPostProcessor implements BeanPostProcessor {
+public class ReferenceClassPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        Method[] methods = bean.getClass().getDeclaredMethods();
-        if(methods!=null){
-
-        }
-
 
         return bean;
     }

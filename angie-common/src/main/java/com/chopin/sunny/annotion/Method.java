@@ -1,4 +1,4 @@
-package com.chopin.sunny.remote.aop;
+package com.chopin.sunny.annotion;
 
 import java.lang.annotation.*;
 

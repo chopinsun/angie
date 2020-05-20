@@ -2,7 +2,7 @@ package com.chopin.sunny.remote.netty;
 
 
 import com.chopin.sunny.SerializerEngine;
-import com.chopin.sunny.serializer.enums.SerializeType;
+import com.chopin.sunny.enums.SerializeType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

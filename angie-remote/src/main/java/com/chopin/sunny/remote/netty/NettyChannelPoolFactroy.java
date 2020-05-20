@@ -1,11 +1,11 @@
 package com.chopin.sunny.remote.netty;
 
+import com.chopin.sunny.enums.SerializeType;
 import com.chopin.sunny.model.RpcResponse;
 import com.chopin.sunny.model.URL;
 import com.chopin.sunny.registry.RegistryFactory;
 import com.chopin.sunny.registry.api.Registry;
-import com.chopin.sunny.serializer.PropertyConfigeHelper;
-import com.chopin.sunny.serializer.enums.SerializeType;
+import com.chopin.sunny.utils.PropertyConfigeHelper;
 import com.google.common.collect.Maps;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -14,7 +14,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
@@ -46,12 +45,12 @@ public class NettyChannelPoolFactroy {
 
     public void init(){
 
-        Registry registry = RegistryFactory.getRegistry(RegistryFactory.RegistType.valueOf(registryType));
+        Registry registry = RegistryFactory.getRegistry();
 
-        Map<String, URL> providers = registry.getLocalRegisterCaches();
+        Map<String, Set<URL>> providers = registry.getLocalRegisterCaches();
 
-        Set<InetSocketAddress> addresses = providers.values().stream().map(x->new InetSocketAddress(x.getHost(),x.getPort())).collect(Collectors.toSet());
-        addresses.stream().forEach(x->addConnectToPool(x));
+        Set<InetSocketAddress> addresses = providers.values().stream().flatMap(x-> x.stream()).map(x->new InetSocketAddress(x.getHost(),x.getPort())).collect(Collectors.toSet());
+        addresses.stream().forEach(x->generateChannel(x));
     }
 
 
@@ -62,16 +61,16 @@ public class NettyChannelPoolFactroy {
     public void release(Channel channel, InetSocketAddress inetSocketAddress){
         //如果channel不可用，则直接增加一个新的channel到队列中
         if(channel==null){
-            addConnectToPool(inetSocketAddress);
+            generateChannel(inetSocketAddress);
             return;
         }else if(!channel.isActive() || !channel.isOpen() || !channel.isWritable()){//回收掉，放个新的进去
             channel.deregister().syncUninterruptibly().awaitUninterruptibly();
             channel.closeFuture().syncUninterruptibly().awaitUninterruptibly();
-            addConnectToPool(inetSocketAddress);
+            generateChannel(inetSocketAddress);
         }
     }
 
-    private void addConnectToPool(InetSocketAddress socketAddress){
+    public void generateChannel(InetSocketAddress socketAddress){
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(new NioEventLoopGroup(CONNECT_SIZE))

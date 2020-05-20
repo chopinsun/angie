@@ -1,10 +1,9 @@
 package com.chopin.sunny.registry.zookeeper;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.chopin.sunny.model.Concumer;
 import com.chopin.sunny.model.URL;
 import com.chopin.sunny.registry.AbstractRegistry;
+import com.chopin.sunny.utils.PropertyConfigeHelper;
 import lombok.extern.log4j.Log4j2;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -20,12 +19,8 @@ import java.util.stream.Collectors;
 @Log4j2
 public class ZkRegistry extends AbstractRegistry {
 
-    private String ZK_SERVERS;
-    private String ZK_SESSION_TIME_OUT;
-    private String ZK_CONNECTION_TIME_OUT;
-    private String ZK_ROOT_PATH="/ZK_ROOT/";
-    private String PROVIDER_ROOT;
-    private String CONCUMER_ROOT;
+    private String ZK_SERVERS =(String) PropertyConfigeHelper.getProperty("angie.registry.servers");
+    private String ZK_ROOT_PATH=(String) PropertyConfigeHelper.getProperty("angie.registry.zookeeper.root");
     private final RetryPolicy retryPolicy= new ExponentialBackoffRetry(1000, 3);
 
     private CuratorFramework client;
@@ -46,7 +41,7 @@ public class ZkRegistry extends AbstractRegistry {
                 .sessionTimeoutMs(5000)
                 .connectionTimeoutMs(5000)
                 .retryPolicy(retryPolicy)
-                .namespace(PROVIDER_ROOT)
+                .namespace("angie")
                 .build();
         client.start();
     }

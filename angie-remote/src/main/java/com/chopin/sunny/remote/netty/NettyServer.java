@@ -1,8 +1,8 @@
 package com.chopin.sunny.remote.netty;
 
+import com.chopin.sunny.enums.SerializeType;
 import com.chopin.sunny.model.RpcRequest;
-import com.chopin.sunny.serializer.PropertyConfigeHelper;
-import com.chopin.sunny.serializer.enums.SerializeType;
+import com.chopin.sunny.utils.PropertyConfigeHelper;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;

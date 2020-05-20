@@ -24,7 +24,9 @@ public class NettyClientResponseCache {
     }
 
     public static void putResponse(RpcResponse response){
-        responseCache.get(response.getUniqueKey()).add(response);
+        if(responseCache.get(response.getUniqueKey())!=null){
+            responseCache.get(response.getUniqueKey()).add(response);
+        }
     }
 
     public static RpcResponse getResponse(String uniqueKey,long timeout){

@@ -5,6 +5,7 @@ import com.chopin.sunny.registry.api.Registry;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -25,7 +26,8 @@ public abstract class AbstractRegistry implements Registry {
         loadFromCache();
         init();
     }
-    abstract  protected void init();
+    @Override
+    abstract  public void init();
     @Override
     abstract public void destroy();
 
@@ -68,11 +70,19 @@ public abstract class AbstractRegistry implements Registry {
     abstract protected void doUnSubscribe(URL url, Set<URL> producter);
 
     private void addRegister(URL url){
-        localRegisterCaches.put(url.getUniqueKey(),url);
+        Set<URL> set = localRegisterCaches.get(url.getUniqueKey());
+        if(set!=null){
+            set.add(url);
+        }else{
+            set = new HashSet<>();
+            set.add(url);
+            localRegisterCaches.put(url.getUniqueKey(),set);
+        }
     }
 
     private void removeRegister(URL url){
-        localRegisterCaches.remove(url);
+        Set<URL> set =  localRegisterCaches.get(url.getUniqueKey());
+        set.remove(url);
     }
 
     private void addSubscribeMap(URL url, Set<URL> producers){

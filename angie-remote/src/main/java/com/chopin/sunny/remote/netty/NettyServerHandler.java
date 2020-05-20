@@ -42,7 +42,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> 
             //根据方法名称定位到具体某一个服务提供者
             String serviceKey = provider.getAppKey();
             //获取注册中心服务
-            Registry registry = RegistryFactory.getRegistry(RegistType.valueOf(registryType));
+            Registry registry = RegistryFactory.getRegistry();
             Object result = null;
             try {
                 if(provider.getService() ==null || provider.getService().getClassName() ==null || provider.getService().getMethodName() ==null){

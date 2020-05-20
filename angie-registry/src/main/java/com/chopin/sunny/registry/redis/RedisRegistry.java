@@ -7,6 +7,16 @@ import java.util.Set;
 
 public class RedisRegistry extends AbstractRegistry {
     @Override
+    protected void init() {
+
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
     protected void doRegister(URL url) {
 
     }

@@ -3,6 +3,7 @@ package com.chopin.sunny.registry;
 import com.chopin.sunny.registry.api.Registry;
 import com.chopin.sunny.registry.redis.RedisRegistry;
 import com.chopin.sunny.registry.zookeeper.ZkRegistry;
+import com.chopin.sunny.utils.PropertyConfigeHelper;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class RegistryFactory {
 
     private static Map<RegistType,Registry> registries  = new HashMap<>();
+    private static final String registryType =(String) PropertyConfigeHelper.getProperty("angie.registry.type");
     private static RegistType DEFAULT_TYPE=RegistType.ZOOKEEPER;
 
     static {
@@ -25,9 +27,9 @@ public class RegistryFactory {
         registries.put(RegistType.REDIS,new RedisRegistry());
     }
 
-    public static Registry getRegistry(RegistType type){
-        if(type!=null){
-            return registries.get(type);
+    public static Registry getRegistry(){
+        if(registryType!=null){
+            return registries.get(registryType);
         }
         return registries.get(DEFAULT_TYPE);
     }

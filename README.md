@@ -7,11 +7,9 @@
   angie-admin #管理控制台
 
   angie-registry #注册中心
-
-  angie-consumer #消费端
   
-  angie-provider #服务端
+  angie-serializer #rpc协议管理、序列化等
   
-  angie-rpc  #rpc协议管理、序列化等
+  angie-remote #远程协议访问管
 
-
+  angie-cluster #集群管理
